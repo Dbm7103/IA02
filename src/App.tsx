@@ -2,9 +2,9 @@ function App() {
 
 
   return (
-    <>
-        <h1>UnSplash Editor</h1>
-    </>
+      <>
+          <h1>UnSplash Editor</h1>
+      </>
   )
 }
 
