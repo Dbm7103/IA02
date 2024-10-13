@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import PhotoGrid from './components/PhotoGrid';
+import PhotoDetails from './components/PhotoDetails';
+import './index.css';
+import { Photo } from './types';
 
 const UNSPLASH_ACCESS_KEY = 'hA8R6vWX5HKRepquCuTpIlzPV96tUht7wUZtEu94L28';
 
@@ -10,53 +14,52 @@ const api = axios.create({
     },
 });
 
-const fetchPhotos = async () => {
-    const response = await api.get('/photos');
+const fetchPhotos = async (page: number, per_page: number = 10) => {
+    const response = await api.get('/photos', { params: { page, per_page } });
     return response.data;
 };
-
-interface Photo {
-    id: string;
-    urls: {
-        thumb: string;
-    };
-    user: {
-        name: string;
-    };
-}
 
 function App() {
     const [photos, setPhotos] = useState<Photo[]>([]);
     const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
         const getPhotos = async () => {
-            const photos = await fetchPhotos();
-            console.log(photos)
-            setPhotos(photos);
+            setLoading(true);
+            const newPhotos = await fetchPhotos(page, 10);
+            setPhotos(prevPhotos => {
+                const uniquePhotos = newPhotos.filter((newPhoto : Photo) => !prevPhotos.some(photo => photo.id === newPhoto.id));
+                return [...prevPhotos, ...uniquePhotos];
+            });
+            setLoading(false);
+            if (newPhotos.length === 0) {
+                setHasMore(false);
+            }
         };
         getPhotos();
-    }, []);
+    }, [page]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.innerHeight + document.documentElement.scrollTop < document.documentElement.offsetHeight - 1 || loading || !hasMore) {
+                return;
+            }
+            setPage(prevPage => prevPage + 1);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [loading, hasMore]);
 
     return (
         <div>
             <h1>UnSplash Editor</h1>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
-                {photos.map(photo => (
-                    <div key={photo.id} onClick={() => setSelectedPhoto(photo)} style={{ cursor: 'pointer' }}>
-                        <img src={photo.urls.thumb} alt={photo.user.name} style={{ width: '100%' }} />
-                        <p>{photo.user.name}</p>
-                    </div>
-                ))}
-            </div>
-            {selectedPhoto && (
-                <div>
-                    <h2>Photo Details</h2>
-                    <img src={selectedPhoto.urls.thumb} alt={selectedPhoto.user.name} />
-                    <p>Author: {selectedPhoto.user.name}</p>
-                    {/* Add more details as needed */}
-                </div>
-            )}
+            <PhotoGrid photos={photos} onPhotoClick={setSelectedPhoto} />
+            {loading && <div className="loading-spinner"></div>}
+            <PhotoDetails selectedPhoto={selectedPhoto} />
         </div>
     );
 }
