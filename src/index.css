@@ -1,46 +1,4 @@
-body {
-  font-family: Arial, sans-serif;
-}
-
-h1 {
-  text-align: center;
-}
-
-.photo-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-  padding: 20px;
-}
-
-.photo-item {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.photo-img {
-  width: 100%;
-  min-width: 150px;
-  min-height: 150px;
-  object-fit: cover;
-}
-
-.photo-author {
-  text-align: center;
-}
-
-.photo-details {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.photo-detail-img {
-  max-width: 300px;
-  object-fit: cover;
-}
-
+/* Loading Spinner */
 .loading-spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-left-color: #09f;
@@ -53,4 +11,93 @@ h1 {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* Error Message Styles */
+.error-message {
+  color: #ff4d4f;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border: 1px solid #ff4d4f;
+  border-radius: 5px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* No More Photos Message */
+.no-more-photos {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.container {
+  min-height: 100vh; /* Đặt chiều cao tối thiểu cho container */
+  overflow-y: auto; /* Cho phép cuộn dọc */
+  padding: 20px; /* Tùy chọn: thêm padding để tạo khoảng cách với các cạnh */
+}
+
+
+/* Card Styles */
+.card {
+  height: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for card */
+  border: none; /* No border */
+  transition: transform 0.2s; /* Smooth scaling effect on hover */
+}
+
+.card:hover {
+  transform: scale(1.02); /* Scale up on hover */
+}
+
+/* Card Body Adjustments */
+.card-body {
+  padding-bottom: 30px; /* Ensure space for author name */
+}
+
+/* Card Text Adjustments */
+.card-text {
+  margin-bottom: 0; /* Remove bottom margin to prevent shifting */
+}
+
+/* Fixed Height for Author Name Container */
+.fixed-height {
+  height: 50px; /* Fixed height for the author name section */
+  display: flex;
+  align-items: center; /* Center content vertically */
+}
+
+/* Styles Specific to the Photo Grid Card */
+.photo-grid-card {
+  position: relative; /* Allows for absolute positioning of elements inside */
+}
+
+.photo-grid-card img {
+  height: 300px; /* Set a specific height for grid images */
+  object-fit: cover; /* Ensures images cover the card without distortion */
+}
+
+/* Styles Specific to the Photo Detail Card */
+.photo-detail-card {
+  padding: 20px; /* More padding for the detail view */
+  background-color: #f9f9f9; /* Different background color for detail */
+}
+
+.photo-detail-card h5 {
+  font-size: 2rem; /* Larger font size for author name in detail */
+}
+
+.photo-detail-card p {
+  font-size: 1.5rem; /* Adjust font size for description */
 }
