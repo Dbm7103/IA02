@@ -1,7 +1,7 @@
 export interface Photo {
     id: string;
     urls: {
-        thumb: string;
+        regular: string;
         full: string;
     };
     user: {

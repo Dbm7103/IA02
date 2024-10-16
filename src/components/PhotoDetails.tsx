@@ -77,7 +77,7 @@ const PhotoDetailPage: React.FC = () => {
             <div className="row">
                 <div className="col-md-6">
                     <img
-                        src={selectedPhoto.urls.full} // Đường dẫn ảnh full-size
+                        src={selectedPhoto.urls.regular} // Đường dẫn ảnh full-size
                         alt={selectedPhoto.description || 'Photo'} // Mô tả của ảnh (nếu có)
                         className="img-fluid" // Bootstrap class để làm ảnh phản hồi với kích thước màn hình
                         style={{ height: '100%', objectFit: 'contain' }} // Ảnh được co dãn để phù hợp với không gian
