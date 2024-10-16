@@ -22,6 +22,7 @@ const api = axios.create({
 
 // Hàm gọi API để lấy danh sách ảnh từ Unsplash, với số trang và số lượng ảnh trên mỗi trang
 const fetchPhotos = async (page: number, per_page: number = 6) => {
+    // return []; // Trả về mảng rỗng để test
     const response = await api.get('/photos', { params: { page, per_page } }); // Gửi request với các tham số
     return response.data; // Trả về dữ liệu ảnh
 };
