@@ -79,19 +79,6 @@ const PhotoDetailPage: React.FC = () => {
         );
     }
 
-
-    // Nếu không tìm thấy ảnh, hiển thị thông báo không có ảnh và thêm nút quay lại
-    if (!selectedPhoto) {
-        return (
-            <div className="text-center">
-                <p className="no-more-photos">No photo found</p>
-                <button onClick={() => navigate('/photos')} className="btn btn-primary">
-                    Quay lại danh sách ảnh
-                </button>
-            </div>
-        );
-    }
-
     // Hiển thị chi tiết của ảnh đã chọn
     return (
         <div className="container mt-5">
