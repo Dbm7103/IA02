@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'; // Import các hook React để quản lý trạng thái và hiệu ứng
 import { Photo } from '../types'; // Import kiểu dữ liệu Photo
-import { useParams } from 'react-router-dom'; // Sử dụng hook useParams để lấy các tham số động từ URL
+import { useParams, useNavigate } from 'react-router-dom'; // Sử dụng hook useParams để lấy các tham số động từ URL
 import axios from 'axios'; // Import axios để gọi API
 
 // Khóa API của Unsplash
@@ -24,6 +24,7 @@ const fetchPhotoDetails = async (id: string) => {
 const PhotoDetailPage: React.FC = () => {
     // Lấy id từ URL thông qua useParams hook
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate(); // Hook điều hướng để quay lại
 
     // Trạng thái lưu trữ chi tiết của ảnh, lỗi và trạng thái tải
     const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null); // Ảnh được chọn
@@ -66,10 +67,30 @@ const PhotoDetailPage: React.FC = () => {
     }
 
     // Nếu có lỗi, hiển thị thông báo lỗi
-    if (error) return <p className="error-message">{error}</p>;
+    if (error)
+    {
+        return (
+            <div className="text-center">
+                <p className="error-message">{error}</p>;
+                <button onClick={() => navigate('/photos')} className="btn btn-primary">
+                    Quay lại danh sách ảnh
+                </button>
+            </div>
+        );
+    }
 
-    // Nếu không tìm thấy ảnh, hiển thị thông báo không có ảnh
-    if (!selectedPhoto) return <p className="no-more-photos">No photo found</p>;
+
+    // Nếu không tìm thấy ảnh, hiển thị thông báo không có ảnh và thêm nút quay lại
+    if (!selectedPhoto) {
+        return (
+            <div className="text-center">
+                <p className="no-more-photos">No photo found</p>
+                <button onClick={() => navigate('/photos')} className="btn btn-primary">
+                    Quay lại danh sách ảnh
+                </button>
+            </div>
+        );
+    }
 
     // Hiển thị chi tiết của ảnh đã chọn
     return (
