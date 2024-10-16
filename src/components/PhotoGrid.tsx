@@ -19,7 +19,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ photos, onPhotoClick }) => {
                             onClick={() => onPhotoClick(photo.id)}
                         >
                             <img
-                                src={photo.urls.thumb}
+                                src={photo.urls.regular}
                                 alt={photo.user.name}
                                 className="card-img-top"
                             />
